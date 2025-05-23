@@ -32,9 +32,13 @@ export async function updateBrand(id: number, brandData: BrandData) {
     body: JSON.stringify(brandData),
   });
 
-  // if (!res.ok) {
-  //   throw new Error("Error al actualizar la marca");
-  // }
+  return await res.json();
+}
+
+export async function deleteBrand(id: number) {
+  const res = await fetch(`http://localhost:4000/api/v1/brands/${id}`, {
+    method: "DELETE",
+  });
 
   return await res.json();
 }

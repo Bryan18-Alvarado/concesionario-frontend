@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Brand } from "../../interfaces/brand.interface";
-import { getAllBrands } from "../../app/api/brands.api";
+import { deleteBrand, getAllBrands } from "../../app/api/brands.api";
 import { PiPlusCircleBold } from "react-icons/pi";
 import { BiPencil, BiTrash } from "react-icons/bi";
 
@@ -79,9 +79,16 @@ export function BrandTable() {
                       </Button>
                     </Link>
                     <Button
-                      //   variant="destructive"
                       size="sm"
                       className="bg-destructive text-destructive-foreground"
+                      onClick={async () => {
+                        await deleteBrand(brand.id);
+                        setBrandsData((prev) => ({
+                          ...prev,
+                          data: prev.data.filter((b) => b.id !== brand.id),
+                          total: prev.total - 1,
+                        }));
+                      }}
                     >
                       <BiTrash className="h-4 w-4" />
                       Eliminar

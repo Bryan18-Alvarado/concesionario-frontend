@@ -58,7 +58,7 @@ export function BrandEditForm() {
       <Input {...register("name")} />
       <Label>Descripción</Label>
       <Input {...register("description")} />
-      <Button className={buttonVariants({ variant: "agregar" })}>
+      <Button className={`${buttonVariants({ variant: "ghost" })} mt-4`}>
         Guardar Cambios
       </Button>
     </form>
