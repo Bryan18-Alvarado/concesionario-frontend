@@ -23,8 +23,8 @@ export async function addBrand(brandData: BrandData) {
   return await res.json();
 }
 
-export async function updateBrand(brandData: BrandData) {
-  const res = await fetch(`http://localhost:4000/api/v1/brands/`, {
+export async function updateBrand(id: number, brandData: BrandData) {
+  const res = await fetch(`http://localhost:4000/api/v1/brands/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -32,9 +32,9 @@ export async function updateBrand(brandData: BrandData) {
     body: JSON.stringify(brandData),
   });
 
-  if (!res.ok) {
-    throw new Error("Error al actualizar la marca");
-  }
+  // if (!res.ok) {
+  //   throw new Error("Error al actualizar la marca");
+  // }
 
   return await res.json();
 }

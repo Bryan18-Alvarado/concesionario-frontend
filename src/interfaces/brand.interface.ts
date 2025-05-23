@@ -16,6 +16,7 @@ export interface Brand {
 }
 
 export interface BrandData {
+  id: number;
   name: string;
   description?: string;
 }
