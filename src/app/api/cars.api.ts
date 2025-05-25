@@ -15,9 +15,16 @@ export async function getAllCars(
 }
 
 export async function addCar(carData: CarData) {
-  const token = localStorage.getItem(
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzQ4MTUyNjMyLCJleHAiOjE3NDgxNTk4MzJ9.FRSrVgZIYXGuf_6Fhz8LB0E1n2EQhBltNz9v6ijtTnQ"
-  );
+  const token = "Profesor, aqui escriba el token que le genera el postman";
+
+  //? Profesor, Estos campos vienen como string desde el formulario/inputs
+  //? pero el backend y la base de datos esperan valores numéricos,
+  //? por eso los convertimos explícitamente a number antes de enviar.
+
+  carData.year = +carData.year;
+  carData.stock = +carData.stock;
+  carData.price = +carData.price;
+  carData.brand_id = +carData.brand_id;
   const res = await fetch("http://localhost:4000/api/v1/cars", {
     method: "POST",
     headers: {

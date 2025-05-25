@@ -30,7 +30,7 @@ export function CarForm() {
     fetchBrands();
   }, []);
 
-  const onSubmit = handleSubmit(async (data, token) => {
+  const onSubmit = handleSubmit(async (data) => {
     console.log(data);
     await addCar(data);
     router.push("/dashboard/cars/");
