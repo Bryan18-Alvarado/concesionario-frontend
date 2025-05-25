@@ -21,7 +21,7 @@ export function BrandForm() {
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
     await addBrand(data);
-    router.push("/");
+    router.push("/dashboard/brands/");
     router.refresh();
   });
 

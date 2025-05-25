@@ -15,6 +15,8 @@ export async function getAllCars(
 }
 
 export async function addCar(carData: CarData) {
+  //!Aqui va el token de autenticacion que genera cada 2 horas el backend
+
   const token = "Profesor, aqui escriba el token que le genera el postman";
 
   //? Profesor, Estos campos vienen como string desde el formulario/inputs
@@ -38,10 +40,19 @@ export async function addCar(carData: CarData) {
 }
 
 export async function updateCar(id: number, carData: CarData) {
+  const token = "Profesor, aqui escriba el token que le genera el postman";
+
+  //! Aqui va el token de autenticacion que genera cada 2 horas el backend (http://localhost:4000/api/v1/cars)
+
+  carData.year = +carData.year;
+  carData.stock = +carData.stock;
+  carData.price = +carData.price;
+  carData.brand_id = +carData.brand_id;
   const res = await fetch(`http://localhost:4000/api/v1/cars/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(carData),
   });

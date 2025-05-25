@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { CarData } from "../../interfaces/car.interface";
 import { getAllBrands } from "../../app/api/brands.api";
 import { Label } from "../ui/label";
@@ -15,7 +15,7 @@ import {
   SelectContent,
   SelectItem,
 } from "../ui/select";
-import { addCar } from "@/app/api/cars.api";
+import { addCar, updateCar } from "@/app/api/cars.api";
 
 export function CarForm() {
   const { register, handleSubmit, setValue } = useForm<CarData>();
@@ -66,6 +66,38 @@ export function CarForm() {
 
       <Button className={buttonVariants({ variant: "agregar" })}>
         Agregar Auto
+      </Button>
+    </form>
+  );
+}
+
+export function CarEditForm() {
+  const { id } = useParams();
+  const router = useRouter();
+
+  const { register, handleSubmit } = useForm<CarData>({});
+
+  const onSubmit = handleSubmit(async (data) => {
+    await updateCar(Number(id), data);
+    router.push("/dashboard/cars/");
+    router.refresh();
+  });
+
+  return (
+    <form onSubmit={onSubmit}>
+      <Label>Modelo</Label>
+      <Input {...register("model")} />
+      <Label>Descripción</Label>
+      <Input {...register("description")} />
+      <Label>Año</Label>
+      <Input type="number" {...register("year")} />
+      <Label>Stock</Label>
+      <Input type="number" {...register("stock")} />
+      <Label>Precio</Label>
+      <Input type="number" {...register("price")} />
+
+      <Button className={`${buttonVariants({ variant: "ghost" })} mt-4`}>
+        Guardar Cambios
       </Button>
     </form>
   );

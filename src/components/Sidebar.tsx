@@ -44,7 +44,7 @@ export const Sidebar = () => {
 
         <div className="mt-8 text-center">
           <Image
-            src="https://wallpapers.com/images/hd/courage-the-cowardly-dog-t3iwvstt2w6a8wxm.jpg"
+            src="https://wallpapers.com/images/hd/john-wick-the-boogeyman-in-action-1w4a5ggq6uamgvf3.webp"
             width={150}
             height={150}
             alt=""

@@ -1,9 +1,9 @@
 export interface Car {
   id: number;
-  model?: string;
+  model: string;
   description: string;
-  year?: number;
-  stock?: number;
+  year: number;
+  stock: number;
   price: number;
   isAvailable?: boolean;
   brand_id: number;
