@@ -1,10 +1,9 @@
-// import React from "react";
 "use client";
-
+import React from "react";
 import { useForm } from "react-hook-form";
 
-import { useRouter } from "next/navigation";
-import { Brand, BrandData } from "../../interfaces/brand.interface";
+import { useRouter, useParams } from "next/navigation";
+import { BrandData } from "../../interfaces/brand.interface";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button, buttonVariants } from "../ui/button";
@@ -22,7 +21,7 @@ export function BrandForm() {
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
     await addBrand(data);
-    router.push("/");
+    router.push("/dashboard/brands/");
     router.refresh();
   });
 
@@ -41,12 +40,13 @@ export function BrandForm() {
 }
 
 export function BrandEditForm() {
-  const { register, handleSubmit } = useForm<Brand>({});
+  const { id } = useParams();
   const router = useRouter();
 
+  const { register, handleSubmit } = useForm<BrandData>({});
+
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
-    await updateBrand(data);
+    await updateBrand(Number(id), data);
     router.push("/dashboard/brands/");
     router.refresh();
   });
@@ -57,8 +57,7 @@ export function BrandEditForm() {
       <Input {...register("name")} />
       <Label>Descripción</Label>
       <Input {...register("description")} />
-
-      <Button className={buttonVariants({ variant: "agregar" })}>
+      <Button className={`${buttonVariants({ variant: "ghost" })} mt-4`}>
         Guardar Cambios
       </Button>
     </form>

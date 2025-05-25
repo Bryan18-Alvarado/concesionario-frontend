@@ -11,43 +11,43 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Brand } from "../../interfaces/brand.interface";
-import { deleteBrand, getAllBrands } from "../../app/api/brands.api";
+import { Car } from "../../interfaces/car.interface";
+import { deleteCar, getAllCars } from "../../app/api/cars.api";
 import { PiPlusCircleBold } from "react-icons/pi";
 import { BiPencil, BiTrash } from "react-icons/bi";
 
-interface BrandsResponse {
-  data: Brand[];
+interface CarsResponse {
+  data: Car[];
   total: number;
 }
 
-export function BrandTable() {
+export function CarTable() {
   const [offset, setOffset] = useState(0);
   const [limit] = useState(3);
-  const [brandsData, setBrandsData] = useState<BrandsResponse>({
+  const [carsData, setCarsData] = useState<CarsResponse>({
     data: [],
     total: 0,
   });
 
-  const loadBrands = async (newOffset: number) => {
-    const result = await getAllBrands(newOffset, limit);
-    setBrandsData(result);
+  const loadCars = async (newOffset: number) => {
+    const result = await getAllCars(newOffset, limit);
+    setCarsData(result);
     setOffset(newOffset);
   };
 
   useEffect(() => {
-    loadBrands(0);
+    loadCars(0);
   }, []);
 
   return (
     <div className="space-y-4">
       <div className="flex justify-end">
         <Link
-          href="/dashboard/brands/add"
+          href="/dashboard/cars/add"
           className={buttonVariants({ variant: "agregar" })}
         >
           <PiPlusCircleBold className="mr-2 h-4 w-4" />
-          Agregar Marca
+          Agregar Auto
         </Link>
       </div>
 
@@ -56,36 +56,44 @@ export function BrandTable() {
           <TableHeader>
             <TableRow>
               <TableHead>ID</TableHead>
-              <TableHead>Nombre</TableHead>
+              <TableHead>Marca</TableHead>
+              <TableHead>Modelo</TableHead>
               <TableHead>Descripción</TableHead>
+              <TableHead>Año</TableHead>
+              <TableHead>Stock</TableHead>
+              <TableHead>Precio</TableHead>
               <TableHead className="text-right">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {brandsData.data.map((brand) => (
-              <TableRow key={brand.id}>
-                <TableCell className="font-medium">{brand.id}</TableCell>
-                <TableCell>{brand.name}</TableCell>
-                <TableCell>{brand.description || "Sin descripción"}</TableCell>
+            {carsData.data.map((car) => (
+              <TableRow key={car.id}>
+                <TableCell className="font-medium">{car.id}</TableCell>
+                <TableCell>{car.brand?.name || "Sin marca"}</TableCell>
+                <TableCell>{car.model}</TableCell>
+                <TableCell>{car.description || "sin descripcion"}</TableCell>
+                <TableCell>{car.year}</TableCell>
+                <TableCell>{car.stock}</TableCell>
+                <TableCell>{car.price}</TableCell>
                 <TableCell className="text-right">
                   <div className="flex gap-2 justify-end">
-                    <Link href={`/dashboard/brands/${brand.id}`}>
+                    <Link href={`/dashboard/cars/${car.id}`}>
                       <Button
-                        //   variant="outline"
                         size="sm"
                         className="bg-blue-600 text-white :hover:bg-blue-700"
                       >
-                        <BiPencil className="h-4 w-4" /> Editar
+                        <BiPencil className="h-4 w-4" />
+                        Editar
                       </Button>
                     </Link>
                     <Button
                       size="sm"
                       className="bg-destructive text-destructive-foreground"
                       onClick={async () => {
-                        await deleteBrand(brand.id);
-                        setBrandsData((prev) => ({
+                        await deleteCar(car.id);
+                        setCarsData((prev) => ({
                           ...prev,
-                          data: prev.data.filter((b) => b.id !== brand.id),
+                          data: prev.data.filter((c) => c.id !== car.id),
                           total: prev.total - 1,
                         }));
                       }}
@@ -105,19 +113,19 @@ export function BrandTable() {
         <Button
           variant="outline"
           disabled={offset === 0}
-          onClick={() => loadBrands(offset - limit)}
+          onClick={() => loadCars(Math.max(offset - limit, 0))}
         >
           Anterior
         </Button>
         <span className="text-sm text-muted-foreground">
           Página {Math.floor(offset / limit) + 1} de{" "}
-          {Math.ceil(brandsData.total / limit)}
+          {Math.ceil(carsData.total / limit)}
         </span>
         <Button
           variant="outline"
           className="hover:bg-gray-400/90"
-          disabled={offset + limit >= brandsData.total}
-          onClick={() => loadBrands(offset + limit)}
+          disabled={offset + limit >= carsData.total}
+          onClick={() => loadCars(offset + limit)}
         >
           Siguiente
         </Button>
@@ -126,4 +134,4 @@ export function BrandTable() {
   );
 }
 
-export default BrandTable;
+export default CarTable;
